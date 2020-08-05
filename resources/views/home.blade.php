@@ -7,8 +7,8 @@
 	<div class="alert alert-danger">{{ Session::get('error') }}</div>
 	@endif
 	<div class="form-group">
-		<input name="url" type="text" required class="form-control @error('url')  is-invalid @enderror" id="url" aria-describedby="url" value="{{ old('url') }}" autocomplete="off" autofocus>
-		@error('url')
+		<input name="songTitle" type="text" required class="form-control @error('songTitle')  is-invalid @enderror" id="songTitle" aria-describedby="url" value="{{ old('songTitle') }}" autocomplete="off" autofocus>
+		@error('songTitle')
 		<div class="invalid-feedback">{{ $message }}</div>
 		@enderror
 	</div>
