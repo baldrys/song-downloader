@@ -57,6 +57,7 @@ export default {
 .search__bar {
     background: #85c1d4;
     border: 1px solid #000000;
+    padding-left: 30px;
     filter: drop-shadow(0px 8px 8px rgba(0, 0, 0, 0.5));
 }
 .search__title {
@@ -99,7 +100,7 @@ export default {
     font-weight: bold;
     font-size: 18px;
     line-height: 29px;
-    margin-left: 10px;
+    margin-left: 20px;
     padding: 5px;
     display: inline-flex;
     cursor: pointer;
