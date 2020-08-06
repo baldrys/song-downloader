@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("/", "SongDlController@index");
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
-Route::get('status/{song}', 'DownloaderController@status')->name('status');
-Route::get('download/{song}', 'DownloaderController@download')->name('download');
+// Route::get('/', 'HomeController@index')->name('home');
+// Route::post('prepare', 'DownloaderController@prepare')->name('prepare');
+// Route::get('status/{song}', 'DownloaderController@status')->name('status');
+// Route::get('download/{song}', 'DownloaderController@download')->name('download');
+
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');
