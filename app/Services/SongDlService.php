@@ -7,13 +7,13 @@ use Madcoda\Youtube\Youtube;
 
 class SongDlService
 {
-	private $youtubeApi;
+	// private $youtubeApi;
 	private $youtubeDl;
 
 	function __construct()
 	{
-		$apiKey = \Config::get('youtubeapi.youtubeApiKey');
-		$this->youtubeApi = new Youtube(array('key' => $apiKey));
+		// $apiKey = \Config::get('youtubeapi.youtubeApiKey');
+		// $this->youtubeApi = new Youtube(array('key' => $apiKey));
 		$this->youtubeDl = new YoutubeDl([
 			'extract-audio' => true,
 			'audio-format' => 'mp3',
@@ -41,18 +41,13 @@ class SongDlService
 		// });
 	}
 
-	public function getYoutubeApi()
-	{
-		return $this->youtubeApi;
-	}
-	public function getYoutubeDl()
-	{
-		return $this->youtubeDl;
-	}
-
-	public function downloadSong($title) {
-		$video = $this->youtubeApi->searchVideos($title,  $maxResults = 1);
+	public function downloadSong($title, YoutubeApiService $youtubeApi) {
+		$video = $youtubeApi->searchVideos($title,  $maxResults = 1);
         $videId = $video[0]->id->videoId;
         return $this->youtubeDl->download('https://www.youtube.com/watch?v='.$videId);
+	}
+
+	public function downloadSongById($id) {
+        return $this->youtubeDl->download('https://www.youtube.com/watch?v='.$id);
 	}
 }

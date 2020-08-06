@@ -5,26 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use App\Services\SongDlService;
+use App\Services\YoutubeApiService;
+use App\Services\Y;
 use App\Song;
 use App\Jobs\DownloadSongJob;
 
 class DownloaderController extends Controller
 {
-    public function prepare(Request $request)
+    public function prepare(Request $request, YoutubeApiService $youtubeAp)
     {
+
+
+        $songs = $youtubeAp->getListOfVideosByTitle($request->input('songTitle'));
+        dd($songs);
+
         $this->validate($request, [
             'songTitle' => 'required'
         ]);
-        // try {          
-        //     $download = $songDlService->downloadSong($request->songTitle);
-        //     $file = $download->getFile();
-        //     dd($download->getTitle(), $file);
-        //     return response()->download($file->getRealPath())->deleteFileAfterSend();   
-        // } catch (\Throwable $exception) {
-        //     $request->session()->flash('error', 'Could not download the given link!');
-        //     logger()->critical($exception->getMessage());
-        //     return back();
-        // }
         $song = Song::create([
             'searchTitle' => $request->input('songTitle')
         ]);

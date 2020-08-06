@@ -38,7 +38,8 @@ class DownloadSongJob implements ShouldQueue
     public function handle(SongDlService $songDlService)
     {
         try {          
-            $download = $songDlService->downloadSong($this->song->searchTitle);
+            // $download = $songDlService->downloadSong($this->song->searchTitle);
+            $download = $songDlService->downloadSongById($this->song->videoId);
             $file = $download->getFile();
             $this->song->title = $download->getTitle();
             $this->song->path = $file->getRealPath();

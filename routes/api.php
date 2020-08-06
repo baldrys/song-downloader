@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/search', 'SongsController@search');
+Route::post('/prepare', 'SongsController@prepare');
+Route::get('/download/{song}', 'SongsController@download');
+Route::get('/status/{song}', 'SongsController@getStatus');
