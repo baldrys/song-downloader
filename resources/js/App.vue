@@ -17,7 +17,7 @@ export default {
 /* Normalize */
 
 body,
-h1 {
+h1, h2 {
     margin: 0;
     padding: 0;
 }
@@ -26,7 +26,7 @@ h1 {
 
 .app-container {
     align-items: center;
-    padding-top: 50px;
+    padding-top: 30px;
     box-sizing: border-box;
     flex-direction: column;
     background: #e2b5b5;

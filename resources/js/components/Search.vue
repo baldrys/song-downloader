@@ -11,8 +11,9 @@
                         type="text"
                         name="songTitle"
                         id="songTitle"
+                        v-model="songTitle"
                     />
-                    <button class="search__btn">search</button>
+                    <button class="search__btn" @click="searchSongs">search</button>
                 </div>
             </div>
 
@@ -22,8 +23,8 @@
                     Finded songs:
                 </h2>
 
-                <div class="songs">
-                    <Song title="Eminem lose yourself" status="in_progress" />
+                <div v-for="song in songs" :key="song.id" class="songs">
+                    <Song :title="song.title" :id="song.id" />
                 </div>
             </div>
         </div>
@@ -32,13 +33,23 @@
 
 <script>
 import Song from "../components/Song";
+import Api from "../api"
 
 export default {
     name: "search",
     components: { Song },
-    computed: {
-        isSearched() {
-            return true;
+    data() {
+        return {
+            songTitle: "",
+            songs: [],
+            isSearched: false
+        }
+    },
+    methods: {
+        async searchSongs() {
+            const response = await Api.getSongs(this.songTitle);
+            this.songs = response.data.songs;
+            this.isSearched = true;
         }
     }
 };
@@ -110,7 +121,7 @@ export default {
 }
 
 .finded-songs__br-line {
-    margin: 30px 0;
+    margin: 15px 0;
     height: 3px;
     border-width: 0;
     color: rgb(0, 0, 0);
@@ -120,7 +131,7 @@ export default {
 .finded-songs__title {
     font-family: "Rowdies", cursive;
     font-weight: 400;
-    font-size: 24px;
-    line-height: 39px;
+    font-size: 20px;
+    line-height: 29px;
 }
 </style>

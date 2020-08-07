@@ -1,22 +1,27 @@
 import axios from "axios";
+import qs from "qs";
 
-const ORG_FORMS_URL = "/api/admin/reference-data/org-forms";
-const ORG_FORM_URL = id => `/api/admin/reference-data/org-forms/${id}`;
+const SEARCH_SONGS = title => `/api/search/${title}`;
+const PREPARE_SONG = "/api/prepare";
+const GET_STATUS = id => `/api/status/${id}`;
+const DOWNLOAD_SONG = id => `/api/download/${id}`
 
 export default {
-    getList() {
-        return axios.get(ORG_FORMS_URL);
+
+    getSongs(title) {
+        return axios.get(SEARCH_SONGS(title));
     },
-    getItem(id) {
-        return axios.get(ORG_FORM_URL(id));
+
+    prepareSong(videoId) {
+        return axios.post(PREPARE_SONG, { videoId: videoId });
     },
-    newItem(title) {
-        return axios.post(ORG_FORMS_URL, { title: title });
+    
+    getStatus(id) {
+        return axios.get(GET_STATUS(id));
     },
-    editItem(id, title) {
-        return axios.put(ORG_FORM_URL(id), { title: title });
+
+    downloadSong(id) {
+        return axios.get(DOWNLOAD_SONG(id), {responseType: 'arraybuffer'});
     },
-    deleteItem(id) {
-        return axios.delete(ORG_FORM_URL(id));
-    }
+
 };
