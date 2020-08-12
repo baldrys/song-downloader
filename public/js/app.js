@@ -2062,6 +2062,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "song",
@@ -2134,15 +2139,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 9:
                 downloaded = _context2.sent;
                 blob = new Blob([downloaded.data], {
-                  type: 'audio/mpeg'
+                  type: "audio/mpeg"
                 });
-                link = document.createElement('a');
-                fileName = downloaded.headers["content-disposition"].split("filename=")[1].replace(/['"]+/g, '');
-                link.setAttribute('download', fileName);
+                link = document.createElement("a");
+                fileName = downloaded.headers["content-disposition"].split("filename=")[1].replace(/['"]+/g, "");
+                link.setAttribute("download", fileName);
                 link.href = window.URL.createObjectURL(blob);
                 link.click();
 
               case 16:
+                if (_this2.status === "failed") {
+                  clearInterval(_this2.interval);
+                }
+
+              case 17:
               case "end":
                 return _context2.stop();
             }
@@ -2208,7 +2218,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.song {\n    background: #85c1d4;\n    border: 1px solid #000000;\n    padding: 10px;\n    -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));\n            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 15px;\n}\n.song__title {\n    font-size: 20px;\n    line-height: 29px;\n    font-family: \"Rowdies\", cursive;\n    font-weight: 400;\n    padding-left: 20px;\n}\n.song__download {\n    cursor: pointer;\n}\n.song__download:hover {\n    opacity: 0.5;\n}\n", ""]);
+exports.push([module.i, "\n.song {\n    position: relative;\n    background: #85c1d4;\n    border: 1px solid #000000;\n    padding: 10px;\n    -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));\n            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 15px;\n    position: relative;\n}\n.song__title-downloading,\n.song__title {\n    font-size: 20px;\n    line-height: 29px;\n    font-family: \"Rowdies\", cursive;\n    font-weight: 400;\n    padding-left: 20px;\n}\n.overlay {\n    position: absolute; /* Sit on top of the page content */\n    display: flex;\n    width: 100%; /* Full width (cover the whole page) */\n    height: 100%; /* Full height (cover the whole page) */\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: white; /* Black background with opacity */\n    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */\n    flex-direction: column;\n    padding-top: 20px;\n    box-sizing: border-box;\n    align-items: center;\n}\n.song__download {\n    cursor: pointer;\n}\n.song__download:hover {\n    opacity: 0.5;\n}\n/* SPINNER */\n.loader,\n.loader:before,\n.loader:after {\n    border-radius: 50%;\n    width: 2.5em;\n    height: 2.5em;\n    -webkit-animation-fill-mode: both;\n    animation-fill-mode: both;\n    -webkit-animation: load7 1.8s infinite ease-in-out;\n    animation: load7 1.8s infinite ease-in-out;\n}\n.loader {\n    color: #85c1d4;\n    font-size: 10px;\n    /* margin: 80px auto; */\n    position: absolute;\n    /* top: 10%;\n    right: 45%; */\n    text-indent: -9999em;\n    transform: translateZ(0);\n    -webkit-animation-delay: -0.16s;\n    animation-delay: -0.16s;\n}\n.loader:before,\n.loader:after {\n    content: \"\";\n    position: absolute;\n    top: 0;\n}\n.loader:before {\n    left: -3.5em;\n    -webkit-animation-delay: -0.32s;\n    animation-delay: -0.32s;\n}\n.loader:after {\n    left: 3.5em;\n}\n@-webkit-keyframes load7 {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 2.5em 0 -1.3em;\n}\n40% {\n        box-shadow: 0 2.5em 0 0;\n}\n}\n@keyframes load7 {\n0%,\n    80%,\n    100% {\n        box-shadow: 0 2.5em 0 -1.3em;\n}\n40% {\n        box-shadow: 0 2.5em 0 0;\n}\n}\n/* SPINNER */\n", ""]);
 
 // exports
 
@@ -5083,17 +5093,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "song" }, [
-    _c("span", { staticClass: "song__title" }, [_vm._v(_vm._s(_vm.title))]),
-    _vm._v(" "),
-    _c("a", { staticClass: "song__download", on: { click: _vm.prepareSong } }, [
-      _c("img", {
-        staticClass: "song__download-icon",
-        attrs: { src: "/images/downloadIcon.png" }
-      })
-    ]),
-    _vm._v("\n    " + _vm._s(_vm.status) + "\n")
-  ])
+  return _vm.status !== "completed"
+    ? _c("div", { staticClass: "song" }, [
+        _c("span", { staticClass: "song__title" }, [_vm._v(_vm._s(_vm.title))]),
+        _vm._v(" "),
+        _c(
+          "a",
+          { staticClass: "song__download", on: { click: _vm.prepareSong } },
+          [
+            _c("img", {
+              staticClass: "song__download-icon",
+              attrs: { src: "/images/downloadIcon.png" }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _vm.status === "in_progress"
+          ? _c("div", { staticClass: "overlay" }, [
+              _c("span", { staticClass: "song__title-downloading" }, [
+                _vm._v("Processing the song ...\n        ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "loader" })
+            ])
+          : _vm._e()
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -17631,8 +17656,8 @@ var getters = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/boris/Documents/code/song-downloader/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/boris/Documents/code/song-downloader/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/boris/Documents/code/php/song-downloader/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/boris/Documents/code/php/song-downloader/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

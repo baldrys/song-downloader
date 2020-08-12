@@ -2,20 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Services\SongDlService;
+use App\Song;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Services\SongDlService;
-use App\Song;
-
 
 class DownloadSongJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-
 
     private $song;
 
@@ -37,7 +34,7 @@ class DownloadSongJob implements ShouldQueue
      */
     public function handle(SongDlService $songDlService)
     {
-        try {          
+        try {
             // $download = $songDlService->downloadSong($this->song->searchTitle);
             $download = $songDlService->downloadSongById($this->song->videoId);
             $file = $download->getFile();
@@ -45,9 +42,9 @@ class DownloadSongJob implements ShouldQueue
             $this->song->path = $file->getRealPath();
             $this->song->status = 'completed';
             $this->song->save();
-            // return response()->download($file->getRealPath())->deleteFileAfterSend();   
+            return response()->download($file->getRealPath())->deleteFileAfterSend();
         } catch (\Throwable $exception) {
-            logger('error', 'Could not download the given link!');
+            logger('Could not download the given link!');
             $this->song->status = 'failed';
             $this->song->save();
             throw new $exception;
