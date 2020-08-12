@@ -15,7 +15,8 @@
 7. Run workers `php artisan queue:work`
 8. Install front-end packages `npm install`
 9. Make link to back end storage
-    ```mkdir storage/app/public/downloads
+    ```
+    mkdir storage/app/public/downloads
     php artisan storage:link
     ```
 
