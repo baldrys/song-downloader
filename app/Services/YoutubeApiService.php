@@ -9,7 +9,7 @@ class YoutubeApiService
 	private $youtubeApi;
 
 
-    const NUM_OF_VIDEOS = 10;
+    const NUM_OF_VIDEOS = 5;
 
 	function __construct()
 	{

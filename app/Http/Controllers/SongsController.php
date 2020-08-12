@@ -25,6 +25,7 @@ class SongsController extends Controller
         $song = Song::create([
             'videoId' => $request->videoId
         ]);
+        
         DownloadSongJob::dispatch($song);
         return response()->json([
             "id" => $song->id,
