@@ -1,4 +1,4 @@
-# Desctiption
+# Description
 
 Single page application that allows to download songs.
 
